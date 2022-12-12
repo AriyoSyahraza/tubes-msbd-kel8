@@ -1,105 +1,192 @@
-@extends('mahasiswa.layout')
+@extends('mahasiswa/layout')
 
-@section('page-tittle', 'Profile')
+@section('title')
+    <title>Mahasiswa - Profile</title>
+@endsection
+
+@section('sidebar')
+    <li class="sidebar-item">
+        <a href="/mahasiswa/dashboard" class='sidebar-link'>
+
+            <span>Dashboard</span>
+        </a>
+    </li>
+
+    <li class="sidebar-item">
+        <a href="/mahasiswa/pra_sempro" class='sidebar-link'>
+
+            <span>Pra Seminar Proposal</span>
+        </a>
+    </li>
+
+    <li class="sidebar-item ">
+        <a href="/mahasiswa/pra_semhas" class='sidebar-link'>
+
+            <span>Pra Seminar Hasil</span>
+        </a>
+    </li>
+
+    <li class="sidebar-item  ">
+        <a href="/mahasiswa/pra_sidang" class='sidebar-link'>
+
+            <span>Pra Sidang Meja Hijau</span>
+        </a>
+    </li>
+
+    <li class="sidebar-item  ">
+        <a href="/mahasiswa/pasca_meja_hijau" class='sidebar-link'>
+
+            <span>Pasca Sidang Meja Hijau</span>
+        </a>
+    </li>
+
+    <li class="sidebar-item  active">
+        <a href="{{ route('profile_mhs') }}" class='sidebar-link'>
+
+            <span>Profil</span>
+        </a>
+    </li>
+@endsection
 
 @section('content')
-<div class="full price_table padding_infor_info">
-    <div class="row">
-       <!-- user profile section --> 
-       <!-- profile image -->
-       <div class="col-lg-12">
-          <div class="full dis_flex center_text">
-             <div class="profile_img"><img width="180" class="rounded-circle" src="images/layout_img/user_img.jpg" alt="#" /></div>
-             <div class="profile_contant">
-                <div class="contact_inner">
-                   <h3>John Smith</h3>
-                   <p><strong>About: </strong>Frontend Developer</p>
-                   <ul class="list-unstyled">
-                      <li><i class="fa fa-envelope-o"></i> : test@gmail.com</li>
-                      <li><i class="fa fa-phone"></i> : 987 654 3210</li>
-                   </ul>
+    <div id="main">
+        <header class="mb-3">
+            <a href="#" class="burger-btn d-block d-xl-none">
+                <i class="bi bi-justify fs-3"></i>
+            </a>
+        </header>
+        <div class="page-heading">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-12 col-md-6 order-md-1 order-last">
+                        <h3>Profil</h3>
+                    </div>
+                    <div class="col-12 col-md-6 order-md-2 order-first">
+                        <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ route('profile_mhs') }}">Profil</a></li>
+                            </ol>
+                        </nav>
+                    </div>
                 </div>
-                <div class="user_progress_bar">
-                   <div class="progress_bar">
-                      <!-- Skill Bars -->
-                      <span class="skill" style="width:85%;">Web Applications <span class="info_valume">85%</span></span>                   
-                      <div class="progress skill-bar ">
-                         <div class="progress-bar progress-bar-animated progress-bar-striped" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%;">
-                         </div>
-                      </div>
-                      <span class="skill" style="width:78%;">Website Design <span class="info_valume">78%</span></span>   
-                      <div class="progress skill-bar">
-                         <div class="progress-bar progress-bar-animated progress-bar-striped" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%;">
-                         </div>
-                      </div>
-                      <span class="skill" style="width:47%;">Automation & Testing <span class="info_valume">47%</span></span>
-                      <div class="progress skill-bar">
-                         <div class="progress-bar progress-bar-animated progress-bar-striped" role="progressbar" aria-valuenow="54" aria-valuemin="0" aria-valuemax="100" style="width: 54%;">
-                         </div>
-                      </div>
-                      <span class="skill" style="width:65%;">UI / UX <span class="info_valume">65%</span></span>
-                      <div class="progress skill-bar">
-                         <div class="progress-bar progress-bar-animated progress-bar-striped" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width: 65%;">
-                         </div>
-                      </div>
-                   </div>
+            </div>
+
+            <section id="basic-horizontal-layouts">
+                <div class="row match-height">
+                    <div class="col-xl-">
+                        <div class="row">
+                            <div class="card card-outline-secondary">
+                                <br><br>
+                                <center>
+                                    @if (Auth::user()->mhs->foto != null)
+                                        <img class="image" src="../main/photos/{{ Auth::user()->mhs->foto }}"
+                                            alt="lecturer_image" style="height: 200px; width:200px" />
+                                    @else
+                                        <img class="card-img-top img-fluid" src="../main/photos/graduate_student.png"
+                                            alt="default_student_image" style="height: 200px; width:200px" />
+                                        <p><i>Anda belum mengunggah foto profile.</i></p>
+                                    @endif
+                                </center>
+                                <!-- ALERT SECTION -->
+                                <center>
+                                    <div class="col-xl-6 mb-6">
+                                        <div class="table-responsive">
+                                            @if (session('status'))
+                                                <div class="alert alert-success alert-dismissible show fade">
+                                                    <i class="bi bi-check-circle"></i> {{ session('status') }}
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                            @endif
+                                            @if (session('prohibited'))
+                                                <div class="alert alert-danger alert-dismissible show fade">
+                                                    <i class="bi bi-exclamation-triangle"></i> {{ session('prohibited') }}
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </center>
+                                <!-- END ALERT SECTION -->
+                                <div class="row align-items-center m-5">
+                                    <div class="col-md mb-5">
+                                        <!-- FORM EDIT PROFILE -->
+                                        <form class="form form-horizontal" method="post" action="{{ route('upd_mhs') }}"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="old_email" value="{{ Auth::user()->email }}">
+                                            <input type="hidden" name="old_foto" value="{{ Auth::user()->mhs->foto }}">
+                                            <div class="form-body">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label for="new_foto">Ubah Foto</label>
+                                                    </div>
+                                                    <div class="col-md-8 form-group">
+                                                        <input type="file" id="new_foto"
+                                                            class="form-control @error('new_foto') is-invalid @enderror"
+                                                            name="new_foto">
+                                                        @error('new_foto')
+                                                            <div class="text-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="nama">NIM</label>
+                                                    </div>
+                                                    <div class="col-md-8 form-group">
+                                                        <input type="text" id="id" class="form-control "
+                                                            value="{{ Auth::user()->mhs->nim }}" disabled>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="nama">Nama</label>
+                                                    </div>
+                                                    <div class="col-md-8 form-group">
+                                                        <input type="text" id="nama"
+                                                            class="form-control @error('nama') is-invalid @enderror"
+                                                            name="nama" value="{{ Auth::user()->mhs->nama }}">
+                                                        @error('nama')
+                                                            <div class="text-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="new_email">Email</label>
+                                                    </div>
+                                                    <div class="col-md-8 form-group">
+                                                        <input type="email" id="new_email"
+                                                            class="form-control @error('email') is-invalid @enderror"
+                                                            name="new_email" value="{{ Auth::user()->email }}">
+                                                        @error('new_email')
+                                                            <div class="text-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <br><br>
+                                                    <center>
+                                                        <table>
+                                                            <tr>
+                                                                <td>
+                                                                    <a href="/mahasiswa/dashboard"
+                                                                        class="btn btn-success"><i
+                                                                            class="fa fa-arrow-left"></i>&nbsp;&nbsp;Kembali</a>
+                                                                </td>
+                                                                <td>
+                                                                    <button type="submit" class="btn btn-primary"><i
+                                                                            class="fa fa-save"></i>&nbsp;&nbsp;Simpan
+                                                                        Perubahan</button>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </center>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <!-- END FORM EDIT PROFILE -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-             </div>
-          </div>
-          <!-- profile contant section -->
-          <div class="full inner_elements margin_top_30">
-             <div class="tab_style2">
-                <div class="tabbar">
-                   <nav>
-                      <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                         <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#recent_activity" role="tab" aria-selected="true">Recent Activity</a>
-                         <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#project_worked" role="tab" aria-selected="false">Projects Worked on</a>
-                         <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#profile_section" role="tab" aria-selected="false">Profile</a>
-                      </div>
-                   </nav>
-                   <div class="tab-content" id="nav-tabContent">
-                      <div class="tab-pane fade show active" id="recent_activity" role="tabpanel" aria-labelledby="nav-home-tab">
-                         <div class="msg_list_main">
-                            <ul class="msg_list">
-                               <li>
-                                 {{-- letak untuk dospem --}}
-                                  <span><img src="images/layout_img/msg2.png" class="img-responsive" alt="#"></span>
-                                  <span>
-                                  <span class="name_user">Taison Jack</span>
-                                  <span class="msg_user">Sed ut perspiciatis unde omnis.</span>
-                                  <span class="time_ago">12 min ago</span>
-                                  </span>
-                               </li>
-                               <li>
-                                  <span><img src="images/layout_img/msg3.png" class="img-responsive" alt="#"></span>
-                                  <span>
-                                  <span class="name_user">Mike John</span>
-                                  <span class="msg_user">On the other hand, we denounce.</span>
-                                  <span class="time_ago">12 min ago</span>
-                                  </span>
-                               </li>
-                            </ul>
-                         </div>
-                      </div>
-                      <div class="tab-pane fade" id="project_worked" role="tabpanel" aria-labelledby="nav-profile-tab">
-                         <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et 
-                            quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos 
-                            qui ratione voluptatem sequi nesciunt.
-                         </p>
-                      </div>
-                      <div class="tab-pane fade" id="profile_section" role="tabpanel" aria-labelledby="nav-contact-tab">
-                         <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et 
-                            quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos 
-                            qui ratione voluptatem sequi nesciunt.
-                         </p>
-                      </div>
-                   </div>
-                </div>
-             </div>
-          </div>
-          <!-- end user profile section -->
-       </div>
+            </section>
+        </div>
     </div>
- </div>
-</div>
 @endsection
